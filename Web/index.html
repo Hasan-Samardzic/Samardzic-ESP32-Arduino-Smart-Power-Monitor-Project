@@ -1,0 +1,103 @@
+<!--
+===================================
+Hasan Samardzic 
+Web Server HTML Program CS528 Final
+Wireless Smart Power Usage Meter 
+===================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>⚡Samardzic⚡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Source Code Pro', monospace;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      color: #58a6ff;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background-color: #161b22;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      font-size: 1.4em;
+    }
+    .green {
+      color: #2ea043;
+    }
+    .red {
+      color: #f85149;
+    }
+    .label {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .uptime {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #8b949e;
+    }
+  </style>
+</head>
+<body>
+  <header>⚡Samardzic CS528 Final Project⚡
+  </header>
+  <main>
+    <div class="card">
+      WiFi Status: <span id="wifi" class="red">Disconnected</span><br>
+      Server Status: <span id="server" class="red">Disconnected</span><br><br>
+
+      <div><span class="label">Voltage:</span><span id="voltage">0.00 V</span></div>
+      <div><span class="label">Current:</span><span id="current">0.0 mA</span></div>
+      <div><span class="label">Power:</span><span id="power">0.0 mW</span></div>
+
+      <div class="uptime">Uptime: <span id="uptime">0</span> sec</div>
+    </div>
+  </main>
+
+  <script>
+    let uptimeCounter = 0;
+
+    function fetchData() {
+      fetch('/')
+        .then(response => response.text())
+        .then(data => {
+          document.body.innerHTML = data;
+        })
+        .catch(error => {
+          console.log('Error fetching data:', error);
+        });
+    }
+
+    function updateUptime() {
+      uptimeCounter++;
+      document.getElementById('uptime').innerText = uptimeCounter;
+    }
+
+    setInterval(fetchData, 2000); 
+    setInterval(updateUptime, 1000); 
+  </script>
+ </body>
+</html>

@@ -1,0 +1,50 @@
+Hasan Samardzic 
+CS528 Final Project Wiring Guide
+
+ESP32 Wiring Connections Power Connections:
+- INA219 VCC -> 3.3V (ESP32 3V3 pin)
+- LCD VCC -> 3.3V or 5V (depending on module version)
+- INA219 GND -> GND (ESP32 GND)
+- LCD GND -> GND
+- RGB Module GND -> GND
+- Battery (-) -> Breadboard GND Rail
+- Battery (+) -> INA219 VIN+
+
+I2C Communication (shared between LCD and INA219):
+- SDA (LCD & INA219) -> GPIO 21 (D21)
+- SCL (LCD & INA219) -> GPIO 22 (D22)
+
+RGB LED Module Connections:
+- R (Red) -> GPIO 2 (D2)
+- G (Green) -> GPIO 3 (D3)
+- B (Blue) -> GPIO 4 (D4)
+- GND -> GND
+
+Current/Voltage Load Path (via INA219):
+- Battery (+) -> INA219 VIN+
+- INA219 VIN- -> Positive leg of LED load
+- LED cathode (–) -> Resistor → GND rail
+
+Summary Table:
+|----------------------------------------------------|
+| Component       | Pin Name     | ESP32 Pin (Label) |
+|-----------------|--------------|-------------------|
+| INA219          | VCC          | 3.3V              |
+| INA219          | GND          | GND               |
+| INA219          | SDA          | GPIO 21 (D21)     |
+| INA219          | SCL          | GPIO 22 (D22)     |
+| LCD (I2C)       | VCC          | 3.3V / 5V         |
+| LCD (I2C)       | GND          | GND               |
+| LCD (I2C)       | SDA          | GPIO 21 (D21)     |
+| LCD (I2C)       | SCL          | GPIO 22 (D22)     |
+| RGB LED         | R            | GPIO 2 (D2)       |
+| RGB LED         | G            | GPIO 3 (D3)       |
+| RGB LED         | B            | GPIO 4 (D4)       |
+| RGB LED         | GND          | GND               |
+| Load (LED)      | Anode (+)    | INA219 VIN–       |
+| Load (LED)      |  Cathode (–) | GND (via resistor)|
+| Battery         | +9V          | INA219 VIN+       |
+| Battery         | GND (–)      | GND rail          |
+|----------------------------------------------------|
+
+*Note: SDA/SCL are shared between the INA219 and LCD since both are I2C devices.*
